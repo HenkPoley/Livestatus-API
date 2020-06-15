@@ -1,6 +1,6 @@
 <?php
 
-require "livestatus_client.php";
+require __DIR__ . '/livestatus_client.php';
 
 // FIXME: Do we really want unlimited memory?
 ini_set('memory_limit', -1);
@@ -15,43 +15,38 @@ $client->pretty_print = true;
 
 $action = $path_parts[1];
 
-$response = [ 'success' => true ];
+$response = ['success' => true];
 
-$args = json_decode(file_get_contents("php://input"),true);
+$args = json_decode(file_get_contents('php://input'), true);
 
 try {
     switch ($action) {
+        case 'acknowledge_problem':
+            $client->acknowledgeProblem($args);
 
-    case 'acknowledge_problem':
-        $client->acknowledgeProblem($args);
-        break;
-       
-    case 'cancel_downtime':
-        $client->cancelDowntime($args);
-        break;
+            break;
+        case 'cancel_downtime':
+            $client->cancelDowntime($args);
 
-    case 'schedule_downtime':
-        $client->scheduleDowntime($args);
-        break;
+            break;
+        case 'schedule_downtime':
+            $client->scheduleDowntime($args);
 
-    case 'enable_notifications':
-        $client->enableNotifications($args);
-        break;
+            break;
+        case 'enable_notifications':
+            $client->enableNotifications($args);
 
-    case 'disable_notifications':
-        $client->disableNotifications($args);
-        break;
+            break;
+        case 'disable_notifications':
+            $client->disableNotifications($args);
 
-    default:
-        $response['content'] =  $client->getQuery($action, $_GET);
-
+            break;
+        default:
+            $response['content'] = $client->getQuery($action, $_GET);
     }
-
 } catch (LiveStatusException $e) {
     $response['success'] = false;
     $response['content'] = ['code' => $e->getCode(), 'message' => $e->getMessage()];
     http_response_code($e->getCode());
 }
 echo json_encode($response);
-
-?>

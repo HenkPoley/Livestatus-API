@@ -1,0 +1,38 @@
+# After rector v0.6.0, process only the currently changed files according to git:
+#    vendor/bin/rector process app Authus --match-git-diff --dry-run
+parameters:
+  autoload_paths:
+    - '.'
+  sets:
+    - 'code-quality'
+    - 'coding-style'
+    - 'dead-code'
+    - 'php52'
+    - 'php53'
+    - 'php54'
+    - 'php55'
+    - 'php56'
+    - 'php70'
+    - 'php71'
+    - 'php72'
+  exclude_paths:
+    - '.vagrant/*'
+    - 'documentation/*'
+    - 'node_modules/*'
+    - 'tests/*'
+    - 'vendor/*'
+  exclude_rectors:
+    - Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector
+    - Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector
+    - Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector
+    - Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector
+    - Rector\CodingStyle\Rector\FuncCall\ConsistentPregDelimiterRector
+    - Rector\CodingStyle\Rector\Function_\CamelCaseFunctionNamingToUnderscoreRector
+    - Rector\DeadCode\Rector\ClassConst\RemoveUnusedClassConstantRector
+    - Rector\DeadCode\Rector\ClassMethod\RemoveUnusedParameterRector
+    - Rector\DeadCode\Rector\Function_\RemoveUnusedFunctionRector
+    - Rector\Php70\Rector\StaticCall\StaticCallOnNonStaticToInstanceCallRector
+    - Rector\Php71\Rector\FuncCall\RemoveExtraParametersRector
+    - Rector\CodingStyle\Rector\Variable\UnderscoreToPascalCaseVariableAndPropertyNameRector
+    - Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector
+
